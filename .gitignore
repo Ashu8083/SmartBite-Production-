@@ -1,0 +1,21 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+# IDE
+.idea/
+.vscode/
+# Environment
+.env
+.env.*
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+
+# Build
+build/
+dist/
+coverage/
+# macOS
+.DS_Store
