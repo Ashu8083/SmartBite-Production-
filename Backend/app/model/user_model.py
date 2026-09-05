@@ -3,12 +3,12 @@ from datetime import datetime
 
 from sqlalchemy import String, Boolean, DateTime
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
 
 
-class User(Base):
+class Users(Base):
     __tablename__ = "users"
 
     id: Mapped[uuid.UUID] = mapped_column(
@@ -52,4 +52,10 @@ class User(Base):
         default=datetime.now,
         onupdate=datetime.now,
         nullable=False,
+    )
+
+    user_device = relationship(
+        "UserDeviceModel",
+        back_populates="users",
+        cascade="all, delete, delete-orphan",
     )

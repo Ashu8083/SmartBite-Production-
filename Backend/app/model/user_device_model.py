@@ -4,7 +4,7 @@ from sqlalchemy.orm import Mapped,mapped_column,relationship
 
 from app.core.database import Base
 
-class UserDeviceModel(Base):
+class UserDevice(Base):
     __tablename__ = "user_device"
     id : Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
@@ -13,10 +13,12 @@ class UserDeviceModel(Base):
         unique=True,
     )
     user_id : Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("user.id", ondelete="CASCADE"),
+        ForeignKey("users.id", ondelete="CASCADE"),
     )
     device_id : Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
     )
 
+    users = relationship("Users",
+                         back_populates="device",)
 
