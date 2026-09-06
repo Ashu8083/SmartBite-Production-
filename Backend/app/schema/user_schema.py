@@ -1,9 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,EmailStr
+from uuid import UUID
 
 class UserCreateSchema(BaseModel):
-    id:int
+    id:UUID
     username:str
-    email:str
+    email:EmailStr
     password_hash:str
     is_active:bool
     is_deleted:bool

@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from uuid import UUID
 from Backend.app.repo.user_repo import Users
 class UserRepository:
     def _init_(self,db:Session):
@@ -7,4 +8,7 @@ class UserRepository:
         self.db.add(user)
         self.db.commit()
         self.db.refresh(user)
+        return user
+    def get_user_by_id(self,user_id:UUID):
+        user=self.db.query(Users).filter(Users.id==user_id).first()
         return user
