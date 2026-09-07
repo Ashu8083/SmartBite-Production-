@@ -1,4 +1,4 @@
-from sqlalchemy import String, Float, DateTime
+from sqlalchemy import String, Float, DateTime,Integer
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime
 from app.core.database import Base
@@ -20,4 +20,8 @@ class PackageFood(Base):
     price: Mapped[float] = mapped_column(
         Float,
         nullable=False
+    )
+    barcode: Mapped[int] = mapped_column(
+        Integer,
+        nullable = True
     )
