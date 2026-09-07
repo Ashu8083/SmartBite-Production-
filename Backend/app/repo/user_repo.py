@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from uuid import UUID
 from Backend.app.repo.user_repo import Users
+from pydantic import EmailStr
 class UserRepository:
     def _init_(self,db:Session):
         self.db=db
@@ -11,4 +12,8 @@ class UserRepository:
         return user
     def get_user_by_id(self,user_id:UUID):
         user=self.db.query(Users).filter(Users.id==user_id).first()
+        return user
+
+    def get_user_by_email(self,email:EmailStr):
+        user=self.db.query(Users).filter(Users.email==email).first()
         return user
