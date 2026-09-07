@@ -12,3 +12,7 @@ class UserRepository:
     def get_user_by_id(self,user_id:UUID):
         user=self.db.query(Users).filter(Users.id==user_id).first()
         return user
+
+    def get_user_by_email(self,email:EmailStr):
+        user=self.db.query(Users).filter(Users.email==email).first()
+        return user
