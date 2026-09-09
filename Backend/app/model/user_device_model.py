@@ -20,5 +20,5 @@ class UserDevice(Base):
     )
 
     users = relationship("Users",
-                         back_populates="device",)
+                         back_populates="user_device",)
 

@@ -1,10 +1,11 @@
 import uuid
 from datetime import datetime
-
+from enum import Enum
 from sqlalchemy import String, Boolean, DateTime
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
+from sqlalchemy import Enum as SqlEnum
+from app.enums.user_enums import Gender,UserStatus
 from app.core.database import Base
 
 
@@ -32,6 +33,14 @@ class Users(Base):
         String(225),
         nullable=False,
     )
+    gender:Mapped[Gender]=mapped_column(
+        SqlEnum(Gender),
+        nullable=False,
+    )
+    user_status:Mapped[UserStatus]=mapped_column(
+        SqlEnum(UserStatus),
+        nullable=False,
+    )
     is_active: Mapped[bool] = mapped_column(
         Boolean,
         default=True,
@@ -55,7 +64,7 @@ class Users(Base):
     )
 
     user_device = relationship(
-        "UserDeviceModel",
+        "UserDevice",
         back_populates="users",
         cascade="all, delete, delete-orphan",
     )
