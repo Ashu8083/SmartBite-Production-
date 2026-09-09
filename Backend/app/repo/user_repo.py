@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from uuid import UUID
 from Backend.app.model.user_model import Users
+
 class UserRepository:
     def _init_(self,db:Session):
         self.db=db
@@ -15,6 +16,6 @@ class UserRepository:
         user=self.db.query(Users).filter(Users.id==user_id).first()
         return user
 
-    def get_user_by_email(self,email:EmailStr):
+    def get_user_by_email(self,email:str):
         user=self.db.query(Users).filter(Users.email==email).first()
         return user
