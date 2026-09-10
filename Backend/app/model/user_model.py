@@ -31,15 +31,7 @@ class Users(Base):
     )
     password_hash: Mapped[str] = mapped_column(
         String(225),
-        nullable=False,
-    )
-    gender:Mapped[Gender]=mapped_column(
-        SqlEnum(Gender),
-        nullable=False,
-    )
-    user_status:Mapped[UserStatus]=mapped_column(
-        SqlEnum(UserStatus),
-        nullable=False,
+        nullable=True,
     )
     is_active: Mapped[bool] = mapped_column(
         Boolean,
