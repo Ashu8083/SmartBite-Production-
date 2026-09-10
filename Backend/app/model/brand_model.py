@@ -18,4 +18,11 @@ class Brand(Base):
         String(100),
     )
     
+    description : Mapped[str] = mapped_column(
+        String(220),nullable=True
+    )
+    
+    country_name :Mapped[str] = mapped_column(
+        String(220),nullable=True
+    )    
 
