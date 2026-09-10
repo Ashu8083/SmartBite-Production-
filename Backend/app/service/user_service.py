@@ -15,3 +15,6 @@ class UserService:
             is_deleted=user_schema.is_deleted
         )
         return self.user_repo.create_user(user)
+    def get_user_by_id(self,user_id:int):
+        user=self.user_repo.get_user_by_id(user_id)
+        return user
