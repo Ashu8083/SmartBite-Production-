@@ -1,7 +1,6 @@
 from sqlalchemy import Integer, String
 from sympy.physics.units import au
 from sqlalchemy.orm import Mapped,mapped_column
-
 from app.core.database import Base
 
 class Brand(Base):
