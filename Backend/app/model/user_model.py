@@ -33,14 +33,6 @@ class Users(Base):
         String(225),
         nullable=True,
     )
-    gender:Mapped[Gender]=mapped_column(
-        SqlEnum(Gender),
-        nullable=False,
-    )
-    user_status:Mapped[UserStatus]=mapped_column(
-        SqlEnum(UserStatus),
-        nullable=False,
-    )
     is_active: Mapped[bool] = mapped_column(
         Boolean,
         default=True,
