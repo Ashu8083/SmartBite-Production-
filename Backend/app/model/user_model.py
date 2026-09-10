@@ -31,7 +31,7 @@ class Users(Base):
     )
     password_hash: Mapped[str] = mapped_column(
         String(225),
-        nullable=False,
+        nullable=True,
     )
     gender:Mapped[Gender]=mapped_column(
         SqlEnum(Gender),
