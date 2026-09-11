@@ -7,9 +7,10 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Enum as SqlEnum
 from app.enums.user_enums import Gender,UserStatus
 from app.core.database import Base
+from app.model.timestamp import TimestampMixin
 
 
-class Users(Base):
+class Users(Base,TimestampMixin):
     __tablename__ = "users"
 
     id: Mapped[uuid.UUID] = mapped_column(
@@ -43,6 +44,13 @@ class Users(Base):
         default=False,
         nullable=False,
     )
+    gender: Mapped[Gender] = mapped_column(
+        SqlEnum(Gender),
+    )
+    user_status: Mapped[UserStatus] = mapped_column(
+        SqlEnum(UserStatus),
+    )
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.now,
