@@ -1,7 +1,7 @@
 from fastapi import Depends
-from Backend.app.repo.user_repo import UserRepository
-from Backend.app.service.user_service import UserService 
-from Backend.app.core.database import get_db
+from app.repo.user_repo import UserRepository
+from app.service.user_service import UserService 
+from app.core.database import get_db
 
 
 def get_user_service(db=Depends(get_db)):
