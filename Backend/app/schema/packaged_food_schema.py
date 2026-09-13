@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class PackagedFoodSchema(BaseModel):
-    brand_id : str
+    brand_id : int
     barcode : str
     image_url : str |None=None
     price : float
@@ -14,7 +14,7 @@ class PackagedFoodSchema(BaseModel):
     food_claims : str | None = None
     
 class UpdatePackageFood(BaseModel):
-    brand_id : str
+    brand_id : int
     barcode : str
     image_url : str |None=None
     price : float
@@ -27,8 +27,7 @@ class UpdatePackageFood(BaseModel):
     food_claims : str | None = None
     
 class PackageFoodResponse(BaseModel):
-    id : int
-    brand_id : str
+    brand_id : int
     barcode : str
     image_url : str |None=None
     price : float
