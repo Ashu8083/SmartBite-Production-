@@ -3,6 +3,7 @@ from app.schema.user_schema import UserCreateSchema
 from app.model.user_model import Users
 from uuid import UUID
 from fastapi import HTTPException
+from datetime import datetime
 
 class UserService:
     def __init__(self,user_repository:UserRepository):
@@ -19,10 +20,13 @@ class UserService:
             username=user_schema.username,
             email=user_schema.email,
             password_hash=user_schema.password_hash,
-            gender=user_schema.gender,
             user_status=user_schema.user_status,
-            is_active=user_schema.is_active,
-            is_deleted=user_schema.is_deleted
+            gender=user_schema.gender
+          
+            
+            
+
+
         )
         return self.user_repo.create_user(user)
     
@@ -47,3 +51,13 @@ class UserService:
                 detail="This email is invalid."
             )
         return user
+
+    def  update_user(self,user_id:UUID,user_schema:UserCreateSchema):
+        user=self.user_repo.get_user_by_id(user_id)
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="User by this id not found"
+            )
+
+        return self.user_repo.update_user(user_schema)
