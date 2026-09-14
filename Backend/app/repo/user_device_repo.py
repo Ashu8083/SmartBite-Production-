@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from Backend.app.model.user_device_model import UserDevice
+from app.model.user_device_model import UserDevice
 from uuid import UUID
 
 class UserDeviceRepo:
@@ -12,6 +12,7 @@ class UserDeviceRepo:
         self.db.refresh(user_device)
         return user_device 
     
-    def get_userdevice_by_id(self,id:UUID):
-        return self.db.query(UserDevice).filter(UserDevice.id==id).first()
+    def get_user_device_by_id(self,id:UUID):
+        user_device=self.db.query(UserDevice).filter(UserDevice.id==id).first()
+        return user_device
     
