@@ -5,10 +5,10 @@ from fastapi import Depends
 from Backend.app.dependency.service_dependency import get_user_service
 
 user_router=APIRouter(
-    prefix="/",
-    tags=""
+    prefix="user",
+    tags="user-api"
 )
-@user_router.post("/")
+@user_router.post("/create-user")
 def create_user(user_schema:UserCreateSchema,user_service:UserService=Depends(get_user_service)):
     user=user_service.create_user(user_schema)
     return user

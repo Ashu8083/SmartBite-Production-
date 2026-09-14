@@ -1,12 +1,12 @@
 from sqlalchemy.orm import Session
-from Backend.app.model.package_food_model import PackageFood
-from Backend.app.schema.packaged_food_schema import PackagedFoodSchema,UpdatePackageFood
+from app.model.package_food_model import PackageFood
+from app.schema.packaged_food_schema import PackagedFoodSchema,UpdatePackageFood
 
 class PackagedFoodRepository:
     def __init__(self,db:Session):
         self.db=db
         
-    def create_packaged_food_repo(self,create_packagedFood:PackagedFoodSchema,id:int):
+    def create_packaged_food_repo(self,create_packagedFood:PackagedFoodSchema):
         packagedfood=PackageFood(
             brand_id=create_packagedFood.brand_id,
             barcode=create_packagedFood.barcode,
@@ -16,8 +16,8 @@ class PackagedFoodRepository:
             allergens_id=create_packagedFood.allergens_id,
             serving_size=create_packagedFood.serving_size,
             serving_unit=create_packagedFood.serving_unit,
-            qunatity=create_packagedFood.quantity,
-            qunatity_unit=create_packagedFood.quantity_unit,
+            quantity=create_packagedFood.quantity,
+            quantity_unit=create_packagedFood.quantity_unit,
             food_claims=create_packagedFood.food_claims
         )
         
