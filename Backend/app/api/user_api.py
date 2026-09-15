@@ -54,3 +54,8 @@ def get_user_by_email(email:str,user_service:UserService=Depends(get_user_servic
 def update_user(user_id:UUID,request:UserUpdate,user_service:UserService=Depends(get_user_service)):
     user=user_service.update_user(user_id,request)
     return user
+
+@user_router.delete("/delete-user")
+def delete_user(user_id:UUID,user_service:UserService=Depends(get_user_service)):
+    user=user_service.delete_user(user_id)
+    return user

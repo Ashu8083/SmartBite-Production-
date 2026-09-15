@@ -61,3 +61,10 @@ class UserService:
             )
 
         return self.user_repo.update_user(user_schema)
+
+    def delete_user(self,user_id:UUID):
+        user=self.user_repo.get_user_by_id(user_id)
+        self.user_repo.delete_user(user)
+        return {
+            "message":"user deleted successfully."
+        }

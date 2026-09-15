@@ -8,3 +8,7 @@ class UserDeviceCreate(BaseModel):
     device_type:str
     firebase_fcm_token:str | None = None
     
+class UserDeviceResponse(BaseModel):
+    device_id:UUID
+    device_type:str
+    firebase_fcm_token:str
