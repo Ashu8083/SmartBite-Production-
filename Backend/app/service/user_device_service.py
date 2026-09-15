@@ -20,4 +20,16 @@ class UserDeviceService:
     
     def get_user_device_by_id(self,id:UUID):
         user_device=self.user_device_repo.get_user_device_by_id(id)
-        return self.user_device_repo.get_user_device_by_id(user_device)
+        return user_device
+
+    def get_all_user_device(self):
+        return self.user_device_repo.get_all_user_device()
+
+    def get_user_device_by_user_id(self,user_id:UUID):
+        return self.user_device_repo.get_user_device_by_user_id(user_id)
+
+    def get_user_device_by_device_id(self,device_id:UUID):
+        return self.user_device_repo.get_user_device_by_device_id(device_id)
+
+    def get_user_device_by_device_type(self,device_type:str):
+        return self.user_device_repo.get_user_device_by_device_type(device_type)
