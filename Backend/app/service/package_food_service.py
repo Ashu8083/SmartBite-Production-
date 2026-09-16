@@ -74,6 +74,3 @@ class PackagedFoodService:
             
         deleted_food = self.packaged_food.delete_package_food(package_food_id)
         return deleted_food
-    
-    
-    

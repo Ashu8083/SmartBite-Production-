@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class PackageFoodAllergenschema(BaseModel):
+class PackageFoodAllergenSchema(BaseModel):
     package_food_id : int
     allergen_id :int
     
