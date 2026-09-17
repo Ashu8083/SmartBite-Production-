@@ -59,8 +59,17 @@ class UserService:
                 status_code=404,
                 detail="User by this id not found"
             )
+        if user_schema.username is not None:
+            user.username = user_schema.username
+        if user_schema.email is not None:
+            user.email = user_schema.email
+        if user_schema.gender is not None:
+            user.gender = user_schema.gender
+        if user_schema.user_status is not None:
+            user.user_status = user_schema.user_status
+        
 
-        return self.user_repo.update_user(user_schema)
+        return self.user_repo.update_user(user)
 
     def delete_user(self,user_id:UUID):
         user=self.user_repo.get_user_by_id(user_id)

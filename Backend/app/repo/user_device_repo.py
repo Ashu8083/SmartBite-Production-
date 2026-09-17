@@ -31,4 +31,11 @@ class UserDeviceRepo:
     def get_user_device_by_device_type(self,device_type:str):
         user_device=self.db.query(UserDevice).filter(UserDevice.device_type==device_type).first()
         return user_device
-    
+
+    def delete_user_device(self,device_id:UUID):
+        device=self.db.query(UserDevice).filter(UserDevice.id==device_id).first()
+        if not device:
+            return None
+        self.db.delete(device)
+        self.db.commit()
+        return device

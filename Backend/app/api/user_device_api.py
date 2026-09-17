@@ -1,6 +1,7 @@
 from fastapi import APIRouter,Depends
 from uuid import UUID
 from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 
 from app.schema.userDevice_schema import UserDeviceCreate,UserDeviceResponse
 from app.service.user_device_service import UserDeviceService
@@ -23,11 +24,12 @@ def create_user_device(user_device_schema:UserDeviceCreate,user_device_service:U
     )
     return JSONResponse(
         status_code=200,
-        content={
+        content = jsonable_encoder({
             "message":"User device created successfully.",
             "status_code":200,
+
             "content":user_device_response.model_dump()
-        }
+        })
     )
 
     
@@ -55,6 +57,11 @@ def get_user_device_by_device_id(device_id:UUID,user_device_service:UserDeviceSe
 @user_device_router.get("/get-user-device-by-device-type")
 def get_user_device_by_device_type(device_type:str,user_device_service:UserDeviceService=Depends(get_user_device_service)):
     user_device=user_device_service.get_user_device_by_device_type(device_type)
+    return user_device
+
+@user_device_router.delete("/delete-user-device")
+def delete_user_device(device_id:UUID,user_device_service:UserDeviceService=Depends(get_user_device_service)):
+    user_device=user_device_service.delete_user_device(device_id)
     return user_device
 
 
