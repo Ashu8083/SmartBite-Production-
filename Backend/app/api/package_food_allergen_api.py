@@ -2,4 +2,30 @@ from fastapi import APIRouter,Depends
 from sqlalchemy.orm import Session
 from app.schema.packaged_food_allergen_schema import PackageFoodAllergenSchema,UpdatePackageFoodAllergen,PackageFoodAllergenResponse
 from app.service.package_food_allergen_service import PackageFoodAllergenService
-from app.dependency.service_dependency import get_package_food_service
+from app.dependency.service_dependency import get_package_food_allergen_service
+
+package_food_allergen_router=APIRouter(prefix="/package-food-allergen",tags=["package-food-allergen"])
+
+@package_food_allergen_router.post("/create",response_model=PackageFoodAllergenResponse)
+def create_package_food_allergen(create_package_food_allergen:PackageFoodAllergenSchema,service:PackageFoodAllergenService=Depends(get_package_food_allergen_service)):
+    return service.create_package_food_allergen_service(create_package_food_allergen)
+
+@package_food_allergen_router.get("/get-package-food-allergen-by",response_model=PackageFoodAllergenResponse)
+def get_package_food_allergen_by_id(get_package_food_allergen_by_id:PackageFoodAllergenSchema,service:PackageFoodAllergenService=Depends(get_package_food_allergen_service)):
+    return service.get_package_food_allergen_by_id(get_package_food_allergen_by_id)
+
+@package_food_allergen_router.get("/get-package-food-allergen-by-package-food-id",response_model=PackageFoodAllergenResponse)
+def get_package_food_allergen_by_package_food_id(get_package_food_allergen_by_package_food_id:PackageFoodAllergenSchema,service:PackageFoodAllergenService=Depends(get_package_food_allergen_service)):
+    return service.get_package_food_allergen_by_package_food_id(get_package_food_allergen_by_package_food_id)
+
+@package_food_allergen_router.get("/get-package-food-allergen-by-allergen-id",response_model=PackageFoodAllergenResponse)
+def get_package_food_allergen_by_allergen_id(get_package_food_allergen_by_allergen_id:PackageFoodAllergenSchema,service:PackageFoodAllergenService=Depends(get_package_food_allergen_service)):
+    return service.get_package_food_allergen_by_allergen_id(get_package_food_allergen_by_allergen_id)
+
+@package_food_allergen_router.put("/update-package-food-allergen",response_model=PackageFoodAllergenResponse)
+def update_package_food_allergen(package_food_allergen_id:int,package_food_allergen:UpdatePackageFoodAllergen,service:PackageFoodAllergenService=Depends(get_package_food_allergen_service)):
+    return service.update_package_food_allergen(package_food_allergen_id,package_food_allergen)
+
+@package_food_allergen_router.delete("/delete-package-food-allergen",response_model=PackageFoodAllergenResponse)
+def delete_package_food_allergen(package_food_allergen_id:int,service:PackageFoodAllergenService=Depends(get_package_food_allergen_service)):
+    return service.delete_package_food_allergen(package_food_allergen_id)
