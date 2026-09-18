@@ -1,5 +1,8 @@
 from fastapi import Depends
 from app.repo.user_repo import UserRepository
+from app.repo.user_device_repo import UserDeviceRepo
+from app.service.user_service import UserService 
+from app.service.user_device_service import UserDeviceService
 from app.service.user_service import UserService 
 from app.repo.packaged_food_repo import PackagedFoodRepository
 from app.service.package_food_service import PackagedFoodService
@@ -13,6 +16,11 @@ def get_user_service(db=Depends(get_db)):
     user_service = UserService(user_repository)
     return user_service
 
+def get_user_device_service(db=Depends(get_db)):
+    user_device_repository = UserDeviceRepo(db)
+    user_service = UserDeviceService(user_device_repository)
+    return user_service
+    
 def get_package_food_service(db=Depends(get_db)):
     package_food_repository=PackagedFoodRepository(db)
     package_food_service=PackagedFoodService(package_food_repository)
