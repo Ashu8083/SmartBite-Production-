@@ -1,8 +1,6 @@
 from pydantic import BaseModel,EmailStr
 from uuid import UUID
 from app.enums.user_enums import UserStatus,Gender
-from datetime import datetime
-
 class UserCreateSchema(BaseModel):
     username:str
     email:EmailStr

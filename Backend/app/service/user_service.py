@@ -16,17 +16,14 @@ class UserService:
                 status_code=409,
                 detail="This email is already exist."
             )
+        
         user=Users(
             username=user_schema.username,
             email=user_schema.email,
             password_hash=user_schema.password_hash,
+            gender=user_schema.gender,
             user_status=user_schema.user_status,
-            gender=user_schema.gender
-          
             
-            
-
-
         )
         return self.user_repo.create_user(user)
     
@@ -51,7 +48,6 @@ class UserService:
                 detail="This email is invalid."
             )
         return user
-
     def  update_user(self,user_id:UUID,user_schema:UserCreateSchema):
         user=self.user_repo.get_user_by_id(user_id)
         if not user:

@@ -15,12 +15,10 @@ def get_user_service(db=Depends(get_db)):
     user_repository = UserRepository(db)
     user_service = UserService(user_repository)
     return user_service
-
 def get_user_device_service(db=Depends(get_db)):
     user_device_repository = UserDeviceRepo(db)
     user_service = UserDeviceService(user_device_repository)
     return user_service
-    
 def get_package_food_service(db=Depends(get_db)):
     package_food_repository=PackagedFoodRepository(db)
     package_food_service=PackagedFoodService(package_food_repository)
