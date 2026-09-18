@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from uuid import UUID
-from Backend.app.model.user_model import Users
+from app.model.user_model import Users
 
 class UserRepository:
     def _init_(self,db:Session):

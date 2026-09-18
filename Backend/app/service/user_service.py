@@ -1,6 +1,6 @@
-from Backend.app.repo.user_repo import UserRepository
-from Backend.app.schema.user_schema import UserCreateSchema
-from Backend.app.model.user_model import Users
+from app.repo.user_repo import UserRepository
+from app.schema.user_schema import UserCreateSchema
+from app.model.user_model import Users
 class UserService:
     def __init(self,user_repository:UserRepository):
         self.user_repo:UserRepository=user_repository
