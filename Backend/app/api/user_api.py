@@ -12,10 +12,10 @@ from app.schema.user_schema import UserUpdate,UserResponse
 
 
 user_router=APIRouter(
-    tags=["Users"]
+    prefix="user",
+    tags="user-api"
 )
- 
-@user_router.post("/users",response_model=UserResponse)
+@user_router.post("/create-user")
 def create_user(user_schema:UserCreateSchema,user_service:UserService=Depends(get_user_service)):
     user=user_service.create_user(user_schema)
     user_response=UserResponse(
