@@ -30,3 +30,5 @@ def get_package_food_allergen_service(db=Depends(get_db)):
     package_food_allergen_repo=PackageFoodAllergenRepository(db)
     package_food_allergen_service=PackageFoodAllergenService(package_food_allergen_repo)
     return package_food_allergen_service
+
+
