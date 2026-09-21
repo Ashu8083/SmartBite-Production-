@@ -30,3 +30,28 @@ class PackageFoodNutritionRepository:
         packagefood_nutrition=self.db.query(PackageFoodNutrient).filter(PackageFoodNutrient.nutrient_id==nutrient_id).all()
         return packagefood_nutrition
     
+    def update_package_food_nutrient(self,package_food_nutrient_id:str,package_food_nutrient:UpdatePackageFoodNutrition):
+        existing_nutrient=self.db.query(PackageFoodNutrient).filter(PackageFoodNutrient.id == package_food_nutrient_id).first()
+        if existing_nutrient is None:
+            return None
+        if package_food_nutrient.package_id is not None:
+            existing_nutrient.package_id=package_food_nutrient.package_id
+            
+        if  package_food_nutrient.nutrient_id is not None:
+            existing_nutrient.nutrient_id = package_food_nutrient.nutrient_id
+            
+        if package_food_nutrient.amount is not None:
+            existing_nutrient.amount = package_food_nutrient.amount
+            
+        self.db.flush()
+        return existing_nutrient
+    
+    def delete_package_food_nutrient(self,package_food_nutrient_id:str):
+        delete_nutrient=self.db.query(PackageFoodNutrient).filter(PackageFoodNutrient.id ==package_food_nutrient_id).first()
+        if delete_nutrient is None:
+            return None
+        
+        self.db.delete(delete_nutrient)
+        self.db.flush()
+        
+        return delete_nutrient
