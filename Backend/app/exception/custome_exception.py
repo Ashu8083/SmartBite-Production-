@@ -19,3 +19,11 @@ class EmailNotFoundException(AppException):
 class UserDeviceAlreadyExist(AppException):
     def __init__(self,message:str):
         super().__init__(message=message,status_code=409,error_code="USER_DEVICE_EXIST")
+
+class AllergyNotFoundException(AppException):
+    def __init__(self,message:str):
+        super().__init__(message=message,status_code=404,error_code="ALLERGY_NOT_FOUND.")
+
+class AllergyAlreadyExist(AppException):
+    def __init__(self, message:str):
+        super().__init__(message=message, status_code=409, error_code="ALLERGY_CONFLICT.")

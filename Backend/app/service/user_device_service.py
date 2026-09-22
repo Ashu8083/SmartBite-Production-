@@ -18,7 +18,7 @@ class UserDeviceService:
                 device_id = user_device_schema.device_id,
                 device_type = user_device_schema.device_type,
                 firebase_fcm_token = user_device_schema.firebase_fcm_token,
-                last_login=datetime.utcnow()
+                last_login=datetime.now()
             )
             return self.user_device_repo.create_user_device(user_device)
         except Exception as e:
