@@ -10,7 +10,7 @@ package_food_allergen_router=APIRouter(prefix="/package-food-allergen",tags=["pa
 def create_package_food_allergen(create_package_food_allergen:PackageFoodAllergenSchema,service:PackageFoodAllergenService=Depends(get_package_food_allergen_service)):
     return service.create_package_food_allergen_service(create_package_food_allergen)
 
-@package_food_allergen_router.get("/get-package-food-allergen-by",response_model=PackageFoodAllergenResponse)
+@package_food_allergen_router.get("/get-package-food-allergen-by-id",response_model=PackageFoodAllergenResponse)
 def get_package_food_allergen_by_id(get_package_food_allergen_by_id:PackageFoodAllergenSchema,service:PackageFoodAllergenService=Depends(get_package_food_allergen_service)):
     return service.get_package_food_allergen_by_id(get_package_food_allergen_by_id)
 
