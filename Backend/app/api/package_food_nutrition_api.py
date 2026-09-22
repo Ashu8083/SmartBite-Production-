@@ -1,0 +1,31 @@
+from fastapi import APIRouter,Depends
+from sqlalchemy.orm import Session
+from app.dependency.service_dependency import get_package_food_nutrition_service
+from app.schema.package_food_nutrition_schema import PackageFoodNutritionSchema,UpdatePackageFoodNutrition,PackageFoodNutritionResponse
+from app.service.package_food_nutrition_service import PackageFoodNutritionService
+
+package_food_nutrition_router=APIRouter(prefix="/package-food-nutrition",tags=["package-food-nutrition"])
+
+@package_food_nutrition_router.post("/create",response_model=PackageFoodNutritionResponse)
+def create_package_food_nutrition(create_package_food_nutrition:PackageFoodNutritionSchema,service:PackageFoodNutritionService=Depends(get_package_food_nutrition_service)):
+    return service.create_package_food_nutrition_service(create_package_food_nutrition)
+
+@package_food_nutrition_router.get("/get-package-food-nutrition-by-id",response_model=PackageFoodNutritionResponse)
+def get_package_food_nutrition_by_id(get_package_food_nutrition_by_id:PackageFoodNutritionSchema,service:PackageFoodNutritionService=Depends(get_package_food_nutrition_service)):
+    return service.get_package_food_nutrition_by_id(get_package_food_nutrition_by_id)
+
+@package_food_nutrition_router.get("/get-package-food-nutrition-by-package-id",response_model=PackageFoodNutritionResponse)
+def get_package_food_nutrition_by_package_id(get_package_food_nutrition_by_package_id:PackageFoodNutritionSchema,service:PackageFoodNutritionService=Depends(get_package_food_nutrition_service)):
+    return service.get_package_food_nutrition_by_package_id(get_package_food_nutrition_by_package_id)
+
+@package_food_nutrition_router.get("/get-package-food-nutrition-by-nutrient-id",response_model=PackageFoodNutritionResponse)
+def get_package_food_nutrition_by_nutrient_id(get_package_food_nutrition_by_nutrient_id:PackageFoodNutritionSchema,service:PackageFoodNutritionService=Depends(get_package_food_nutrition_service)):
+    return service.get_package_food_nutrition_by_nutrient_id(get_package_food_nutrition_by_nutrient_id)
+
+@package_food_nutrition_router.put("/update-package-food-nutrition",response_model=PackageFoodNutritionResponse)
+def update_package_food_nutrition(update_package_food_nutrition:UpdatePackageFoodNutrition,service:PackageFoodNutritionService=Depends(get_package_food_nutrition_service)):
+    return service.update_package_food_nutrient(update_package_food_nutrition)
+
+@package_food_nutrition_router.delete("/delete-package-food-nutrition",response_model=PackageFoodNutritionResponse)
+def delete_package_food_nutrition(delete_package_food_nutrition:PackageFoodNutritionSchema,service:PackageFoodNutritionService=Depends(get_package_food_nutrition_service)):
+    return service.delete_package_food_nutrient(delete_package_food_nutrition)

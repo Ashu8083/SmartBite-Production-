@@ -1,9 +1,11 @@
-from app.repo.user_repo import UserRepository
-from app.schema.user_schema import UserCreateSchema
-from app.model.user_model import Users
 from uuid import UUID
 from fastapi import HTTPException
 from datetime import datetime
+
+from app.repo.user_repo import UserRepository
+from app.schema.user_schema import UserCreateSchema
+from app.model.user_model import Users
+from app.exception.custome_exception import UserNotFoundException,EmailNotFoundException,EmailAlreadyExist,UserAlreadyExist
 
 class UserService:
     def __init__(self,user_repository:UserRepository):
@@ -12,11 +14,12 @@ class UserService:
     def create_user(self,user_schema:UserCreateSchema):
         user_email=self.user_repo.get_user_by_email(user_schema.email)
         if user_email:
-            raise HTTPException(
-                status_code=409,
-                detail="This email is already exist."
-            )
-        
+            raise EmailAlreadyExist("Email already exists.")
+
+        user = self.user_repo.get_user_by_username(user_schema.username)
+        if user:
+            raise UserAlreadyExist("Username already exists.")
+
         user=Users(
             username=user_schema.username,
             email=user_schema.email,
@@ -24,7 +27,7 @@ class UserService:
             gender=user_schema.gender,
             user_status=user_schema.user_status,
             
-        )
+            )
         return self.user_repo.create_user(user)
     
     def get_all_user(self):
@@ -34,19 +37,17 @@ class UserService:
     def get_user_by_id(self,user_id:UUID):
         user=self.user_repo.get_user_by_id(user_id)
         if user is None:
-            raise HTTPException(
-                status_code=404,
-                detail="This user_id is invalid."
-            )
+            raise UserNotFoundException("User not found in this id.")
         return user
 
     def get_user_by_email(self,email:str):
         user=self.user_repo.get_user_by_email(email)
         if user is None:
-            raise HTTPException(
-                status_code=404,
-                detail="This email is invalid."
-            )
+            raise EmailNotFoundException("This Email is not found.")
+        return user
+
+    def get_user_by_username(self,username:str):
+        user=self.user_repo.get_user_by_username(username)
         return user
     def  update_user(self,user_id:UUID,user_schema:UserCreateSchema):
         user=self.user_repo.get_user_by_id(user_id)

@@ -21,7 +21,7 @@ class UserUpdate(BaseModel):
     gender:Gender
     user_status:UserStatus
 
-    
+
 
 
 # response
