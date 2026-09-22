@@ -26,7 +26,7 @@ class PackageFoodNutritionRepository:
         packagefood_nutrition = self.db.query(PackageFoodNutrient).filter(PackageFoodNutrient.package_id==package_id).all()
         return packagefood_nutrition
     
-    def get_package_food_by_nutrient_id(self,nutrient_id:int):
+    def get_package_food_nutrition_by_nutrient_id(self,nutrient_id:int):
         packagefood_nutrition=self.db.query(PackageFoodNutrient).filter(PackageFoodNutrient.nutrient_id==nutrient_id).all()
         return packagefood_nutrition
     
