@@ -3,6 +3,7 @@ from uuid import UUID
 from app.repo.brand_repo import BrandRepository
 from app.schema.brand_schema import CreateBrandSchema
 from app.model.brand_model import Brand
+from app.exception.custome_exception import BrandNotFoundException
 
 class BrandService:
     def __init__(self,brand_repository:BrandRepository):
@@ -25,14 +26,20 @@ class BrandService:
 
     def get_brand_by_id(self,id:int):
         brand=self.brand_repo.get_brand_by_id(id)
+        if brand is None:
+            raise BrandNotFoundException("Brand not found in this id.")
         return brand
 
     def get_brand_by_name(self,name:str):
         brand=self.brand_repo.get_brand_by_name(name)
+        if brand is None:
+            raise BrandNotFoundException("Brand not found in this name.")
         return brand
 
     def delete_brand(self,brand_id:int):
         brand=self.brand_repo.get_brand_by_id(brand_id)
+        if brand is None:
+            raise BrandNotFoundException("This brand_id is invalid. ")
         self.brand_repo.delete_brand(brand)
         return {
             "message":"Brand deleted successfully."

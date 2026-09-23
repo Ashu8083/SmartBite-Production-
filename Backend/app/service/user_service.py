@@ -1,5 +1,4 @@
 from uuid import UUID
-from fastapi import HTTPException
 from datetime import datetime
 
 from app.repo.user_repo import UserRepository
@@ -19,7 +18,6 @@ class UserService:
         user = self.user_repo.get_user_by_username(user_schema.username)
         if user:
             raise UserAlreadyExist("Username already exists.")
-
         user=Users(
             username=user_schema.username,
             email=user_schema.email,
@@ -48,14 +46,14 @@ class UserService:
 
     def get_user_by_username(self,username:str):
         user=self.user_repo.get_user_by_username(username)
+        if user is None:
+            raise UserNotFoundException("User not found.")
         return user
+    
     def  update_user(self,user_id:UUID,user_schema:UserCreateSchema):
         user=self.user_repo.get_user_by_id(user_id)
         if not user:
-            raise HTTPException(
-                status_code=404,
-                detail="User by this id not found"
-            )
+            raise UserNotFoundException("User in this id is not found. ")
         if user_schema.username is not None:
             user.username = user_schema.username
         if user_schema.email is not None:
@@ -65,11 +63,12 @@ class UserService:
         if user_schema.user_status is not None:
             user.user_status = user_schema.user_status
         
-
         return self.user_repo.update_user(user)
 
     def delete_user(self,user_id:UUID):
         user=self.user_repo.get_user_by_id(user_id)
+        if user is None:
+            raise UserNotFoundException("User not found in this id.")
         self.user_repo.delete_user(user)
         return {
             "message":"user deleted successfully."

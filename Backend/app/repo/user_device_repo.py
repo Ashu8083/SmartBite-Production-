@@ -21,15 +21,15 @@ class UserDeviceRepo:
         return user_device
 
     def get_user_device_by_user_id(self,user_id:UUID):
-        user_device=self.db.query(UserDevice).filter(UserDevice.id==user_id).first()
+        user_device=self.db.query(UserDevice).filter(UserDevice.user_id==user_id).first()
         return user_device 
     
     def get_user_device_by_device_id(self,device_id:UUID):
-        user_device=self.db.query(UserDevice).filter(UserDevice.device_id==device_id).first()
+        user_device=self.db.query(UserDevice).filter(UserDevice.device_id==device_id).all()
         return user_device
     
     def get_user_device_by_device_type(self,device_type:str):
-        user_device=self.db.query(UserDevice).filter(UserDevice.device_type==device_type).first()
+        user_device=self.db.query(UserDevice).filter(UserDevice.device_type==device_type).all()
         return user_device
 
     def delete_user_device(self,device_id:UUID):

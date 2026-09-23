@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi import Request, Response,APIRouter
+from fastapi.exceptions import RequestValidationError
+
 from app.api.user_api import user_router
 from app.api.user_device_api import user_device_router
 from app.api.package_food_api import packaged_food_router
@@ -8,7 +10,7 @@ from app.api.package_food_nutrition_api import package_food_nutrition_router
 from app.api.allergen_api import allergen_router
 from app.api.brand_api import brand_router
 
-from app.exception.exception_handler import app_exception_handler
+from app.exception.exception_handler import app_exception_handler,generic_exception_handler,validation_exception_handler
 from app.exception.app_exception import AppException
 
 
@@ -27,6 +29,14 @@ app.include_router(brand_router)
 app.add_exception_handler(
     AppException,
     app_exception_handler
+)
+app.add_exception_handler(
+    Exception,
+    generic_exception_handler
+)
+app.add_exception_handler(
+    RequestValidationError,
+    validation_exception_handler
 )
 
 
