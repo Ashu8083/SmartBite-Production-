@@ -5,7 +5,7 @@ from app.dependency.service_dependency import get_nutrient_service
 
 nutrient_router=APIRouter(prefix="/nutrient",tags=["nutrient"])
 
-@nutrient_router.post("/create", response_mode=NutrientResponse)
+@nutrient_router.post("/create",response_model=NutrientResponse)
 def create_nutrient(create_nutrient:NutrientSchema,service:NutrientService=Depends(get_nutrient_service)):
     return service.create_nutrient_service(create_nutrient)
 

@@ -1,16 +1,16 @@
 from pydantic import BaseModel
 
-class NutrientSchema:
+class NutrientSchema(BaseModel):
     name:str
     category:str
     unit:str
     
-class UpdateNutrient:
+class UpdateNutrient(BaseModel):
     name:str|None=None
     category:str|None=None
     unit:str|None=None
     
-class NutrientResponse:
+class NutrientResponse(BaseModel):
     id:int
     name:str
     category:str
