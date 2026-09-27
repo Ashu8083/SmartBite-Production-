@@ -5,8 +5,10 @@ from app.api.user_device_api import user_device_router
 from app.api.package_food_api import packaged_food_router
 from app.api.package_food_allergen_api import package_food_allergen_router
 from app.api.package_food_nutrition_api import package_food_nutrition_router
+from app.api.nutrient_api import nutrient_router
 from app.api.allergen_api import allergen_router
 from app.api.brand_api import brand_router
+from app.api.food_category_api import food_category_router
 
 from app.exception.exception_handler import app_exception_handler
 from app.exception.app_exception import AppException
@@ -20,8 +22,10 @@ app.include_router(user_device_router)
 app.include_router(packaged_food_router)
 app.include_router(package_food_allergen_router)
 app.include_router(package_food_nutrition_router)
+app.include_router(nutrient_router)
 app.include_router(allergen_router)
 app.include_router(brand_router)
+app.include_router(food_category_router)
 
 
 app.add_exception_handler(

@@ -10,10 +10,14 @@ from app.repo.packaged_food_allergen_repo import PackageFoodAllergenRepository
 from app.service.package_food_allergen_service import PackageFoodAllergenService
 from app.repo.package_food_nutrition_repo import PackageFoodNutritionRepository
 from app.service.package_food_nutrition_service import PackageFoodNutritionService
+from app.repo.nutrient_repo import NutrientRepository
+from app.service.nutrient_service import NutrientService
 from app.repo.allergen_repo import AllergenRepository
 from app.service.allergen_service import AllergenService
 from app.repo.brand_repo import BrandRepository
 from app.service.brand_service import BrandService
+from app.repo.food_category_repo import FoodCategoryRepository
+from app.service.food_category_service import FoodCategoryService
 from app.core.database import get_db
 
 
@@ -51,5 +55,12 @@ def get_brand_service(db=Depends(get_db)):
     brand_service=BrandService(brand_repository)
     return brand_service
 
+def get_nutrient_service(db=Depends(get_db)):
+    nutrient_repository=NutrientRepository(db)
+    nutrient_service=NutrientService(nutrient_repository)
+    return nutrient_service
 
-
+def get_food_category_service(db=Depends(get_db)):
+    food_category_repository=FoodCategoryRepository(db)
+    food_category_service=FoodCategoryService(food_category_repository)
+    return food_category_service
