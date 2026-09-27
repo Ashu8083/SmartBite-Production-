@@ -43,7 +43,7 @@ class NutrientRepository:
         return existing_nutrient
     
     def delete_nutrient(self,nutrient_id:int):
-        delete_nutrient=self.db.query(Nutrient).filter(Nutrient.id==nutrient_id)
+        delete_nutrient=self.db.query(Nutrient).filter(Nutrient.id==nutrient_id).first()
         if delete_nutrient is None:
             return None
         
