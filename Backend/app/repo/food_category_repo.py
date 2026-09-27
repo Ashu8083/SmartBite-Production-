@@ -6,7 +6,7 @@ class FoodCategoryRepository:
     def __init__(self,db:Session):
         self.db=db
     
-    def create_food_category_service(self,food_category:FoodCategorySchema):
+    def create_food_category_repo(self,food_category:FoodCategorySchema):
         category=FoodCategory(
             name=food_category.name,
             description=food_category.description
