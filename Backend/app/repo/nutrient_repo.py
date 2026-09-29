@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy.orm import Session
 from app.model.nutrient_model import Nutrient
 from app.schema.nutrient_schema import NutrientSchema,UpdateNutrient
@@ -15,32 +17,53 @@ class NutrientRepository:
         
         self.db.add(nutrient)
         self.db.flush()
+        self.db.refresh(nutrient)
         return nutrient 
     
     def get_nutrient_by_id(self,nutrient_id:int):
         nutrient=self.db.query(Nutrient).filter(Nutrient.id==nutrient_id).first()
         return nutrient
+
+
+    def get_nutrient_by_filter(self,
+                               category:  Optional[str] = None,
+                               nutrient_name: Optional[str] = None):
+
+        query=self.db.query(Nutrient)
+        if nutrient_name is not None:
+            query = query.filter(Nutrient.name==nutrient_name)
+        if category is not None :
+            query = query.filter(Nutrient.category==category)
+
+        return query.all()
+
     
-    def get_nutrient_by_name(self,name:str):
-        nutrient=self.db.query(Nutrient).filter(Nutrient.name==name).first()
-        return nutrient
+    # def get_nutrient_by_name(self,name:str):
+    #     nutrient=self.db.query(Nutrient).filter(Nutrient.name==name).first()
+    #     return nutrient
+    #
+    # def get_nutrient_by_category(self,category:str):
+    #     nutrient=self.db.query(Nutrient).filter(Nutrient.category==category).all()
+    #     return nutrient
     
-    def get_nutrient_by_category(self,category:str):
-        nutrient=self.db.query(Nutrient).filter(Nutrient.category==category).all()
-        return nutrient
-    
-    def update_nutrient(self,nutrient_id:int,nutrient:UpdateNutrient):
-        existing_nutrient=self.db.query(Nutrient).filter(Nutrient.id==nutrient_id).first()
-        if existing_nutrient is None:
-            return None
-        if existing_nutrient is not None:
-            existing_nutrient.name=nutrient.name
-        if existing_nutrient is not None:
-            existing_nutrient.category=nutrient.category
-        if existing_nutrient is not None:
-            existing_nutrient.unit=nutrient.unit
+    def update_nutrient(self,nutrient:Nutrient,nutrient_update:UpdateNutrient):
+
+        for field,value in nutrient_update.model_dump(exclude_unset= True).items():
+            setattr(nutrient,field,value)
+        self.db.add(nutrient)
+        self.db.flush()
+        self.db.refresh(nutrient)
+
+        # if existing_nutrient is None:
+        #     return None
+        # if existing_nutrient is not None:
+        #     existing_nutrient.name=nutrient.name
+        # if existing_nutrient is not None:
+        #     existing_nutrient.category=nutrient.category
+        # if existing_nutrient is not None:
+        #     existing_nutrient.unit=nutrient.unit
         
-        return existing_nutrient
+        return nutrient
     
     def delete_nutrient(self,nutrient_id:int):
         delete_nutrient=self.db.query(Nutrient).filter(Nutrient.id==nutrient_id).first()
@@ -49,5 +72,6 @@ class NutrientRepository:
         
         self.db.delete(delete_nutrient)
         self.db.flush()
+        self.db.refresh(delete_nutrient)
         
         return delete_nutrient

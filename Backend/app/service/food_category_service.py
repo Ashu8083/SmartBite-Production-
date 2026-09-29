@@ -38,13 +38,13 @@ class FoodCategoryService:
         return category
     
     def update_food_category(self,category_id:int,food_category:UpadteFoodCategory):
-        category=self.food_category.update_food_category(category_id)
+        category=self.food_category.get_food_category_by_id(category_id)
         if category is None:
             raise HTTPException(
                 status_code=404,
                 detail="food category not found"
             )
-        update=self.food_category.update_food_category(category_id,food_category)
+        update=self.food_category.update_food_category(category,food_category)
         return update
     
     def delete_food_category(self,category_id:int):
