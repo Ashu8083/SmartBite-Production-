@@ -15,7 +15,8 @@ class PackageFoodNutritionRepository:
         )
         
         self.db.add(package_food_nutrition)
-        self.db.flush()
+        self.db.commit()
+        self.db.refresh(package_food_nutrition)
         return package_food_nutrition
     
     def get_package_food_nutrition_by_id(self,package_food_nutrition_by_id:str):
@@ -30,28 +31,18 @@ class PackageFoodNutritionRepository:
         packagefood_nutrition=self.db.query(PackageFoodNutrient).filter(PackageFoodNutrient.nutrient_id==nutrient_id).all()
         return packagefood_nutrition
     
-    def update_package_food_nutrient(self,package_food_nutrient_id:str,package_food_nutrient:UpdatePackageFoodNutrition):
-        existing_nutrient=self.db.query(PackageFoodNutrient).filter(PackageFoodNutrient.id == package_food_nutrient_id).first()
-        if existing_nutrient is None:
-            return None
-        if package_food_nutrient.package_id is not None:
-            existing_nutrient.package_id=package_food_nutrient.package_id
-            
-        if  package_food_nutrient.nutrient_id is not None:
-            existing_nutrient.nutrient_id = package_food_nutrient.nutrient_id
-            
-        if package_food_nutrient.amount is not None:
-            existing_nutrient.amount = package_food_nutrient.amount
-            
-        self.db.flush()
-        return existing_nutrient
+    def update_package_food_nutrient(self,package_food_nutrient:PackageFoodNutrient,update_food_nutrient:UpdatePackageFoodNutrition):
+       for field , value in update_food_nutrient.model_dump(exclude_unset=True).items():
+           setattr (package_food_nutrient,field,value)
+           self.db.add(package_food_nutrient)
+           self.db.commit()
+           self.db.refresh(package_food_nutrient)
+           return package_food_nutrient
     
-    def delete_package_food_nutrient(self,package_food_nutrient_id:str):
-        delete_nutrient=self.db.query(PackageFoodNutrient).filter(PackageFoodNutrient.id ==package_food_nutrient_id).first()
-        if delete_nutrient is None:
-            return None
+    def delete_package_food_nutrient(self,delete_nutrient:PackageFoodNutrient):
         
         self.db.delete(delete_nutrient)
-        self.db.flush()
+        self.db.commit()
+        self.db.refresh(delete_nutrient)
         
         return delete_nutrient

@@ -16,14 +16,13 @@ class NutrientRepository:
         )
         
         self.db.add(nutrient)
-        self.db.flush()
+        self.db.commit()
         self.db.refresh(nutrient)
         return nutrient 
     
     def get_nutrient_by_id(self,nutrient_id:int):
         nutrient=self.db.query(Nutrient).filter(Nutrient.id==nutrient_id).first()
         return nutrient
-
 
     def get_nutrient_by_filter(self,
                                category:  Optional[str] = None,
@@ -38,40 +37,19 @@ class NutrientRepository:
         return query.all()
 
     
-    # def get_nutrient_by_name(self,name:str):
-    #     nutrient=self.db.query(Nutrient).filter(Nutrient.name==name).first()
-    #     return nutrient
-    #
-    # def get_nutrient_by_category(self,category:str):
-    #     nutrient=self.db.query(Nutrient).filter(Nutrient.category==category).all()
-    #     return nutrient
-    
     def update_nutrient(self,nutrient:Nutrient,nutrient_update:UpdateNutrient):
 
         for field,value in nutrient_update.model_dump(exclude_unset= True).items():
             setattr(nutrient,field,value)
         self.db.add(nutrient)
-        self.db.flush()
+        self.db.commit()
         self.db.refresh(nutrient)
-
-        # if existing_nutrient is None:
-        #     return None
-        # if existing_nutrient is not None:
-        #     existing_nutrient.name=nutrient.name
-        # if existing_nutrient is not None:
-        #     existing_nutrient.category=nutrient.category
-        # if existing_nutrient is not None:
-        #     existing_nutrient.unit=nutrient.unit
         
         return nutrient
     
-    def delete_nutrient(self,nutrient_id:int):
-        delete_nutrient=self.db.query(Nutrient).filter(Nutrient.id==nutrient_id).first()
-        if delete_nutrient is None:
-            return None
-        
+    def delete_nutrient(self,delete_nutrient:Nutrient):
         self.db.delete(delete_nutrient)
-        self.db.flush()
+        self.db.commit()
         self.db.refresh(delete_nutrient)
         
         return delete_nutrient

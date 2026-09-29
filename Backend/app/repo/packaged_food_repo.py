@@ -1,3 +1,4 @@
+from typing import Optional
 from sqlalchemy.orm import Session
 from app.model.package_food_model import PackageFood
 from app.schema.packaged_food_schema import PackagedFoodSchema,UpdatePackageFood
@@ -22,7 +23,8 @@ class PackagedFoodRepository:
         )
         
         self.db.add(packaged_food)
-        self.db.flush()
+        self.db.commit()
+        self.db.refresh(packaged_food)
         return packaged_food
     
     def get_package_food_by_id(self,package_food_id:int):
@@ -33,28 +35,27 @@ class PackagedFoodRepository:
         package_food=self.db.query(PackageFood).filter(PackageFood.barcode == barcode).first()
         return package_food
     
-    def get_package_food_by_brand_id(self,brand_id:str):
-        package_food=self.db.query(PackageFood).filter(PackageFood.brand_id == brand_id).all()
-        return package_food
-    
-    def get_package_food_by_category_id(self,category_id:int):
-        package_food=self.db.query(PackageFood).filter(PackageFood.category_id == category_id).first()
-        return package_food
+    def get_package_food_by_filter(self,
+                                   category_id:Optional[int]= None,
+                                   brand_id:Optional[str]=None):
+        query=self.db.query(PackageFood)
+        if brand_id is not None:
+            query = query.filter(PackageFood.brand_id==brand_id)
+        if category_id is not None :
+            query = query.filter(PackageFood.category_id==category_id)
+        return query.all()
     
     def updated_package_food(self,package_food :PackageFood,package_food_update:UpdatePackageFood):
         for field , value in package_food_update.model_dump(exclude_unset=True).items():
             setattr(package_food,field,value)
         self.db.add(package_food)
-        self.db.flush()
-        self.db.flush(package_food)
+        self.db.commit()
+        self.db.refresh(package_food)
         return package_food
     
-    def delete_package_food(self,package_food_id:int):
-        deleted_food=self.db.query(PackageFood).filter(PackageFood.id==package_food_id).first
-        if deleted_food is None:
-            return None
+    def delete_package_food(self,delete_package_food:PackageFood):
+        self.db.delete(delete_package_food)
+        self.db.commit()
+        self.db.refresh(delete_package_food)
         
-        self.db.delete(deleted_food)
-        self.db.flush()
-        
-        return deleted_food
+        return delete_package_food

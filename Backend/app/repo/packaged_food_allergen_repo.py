@@ -14,6 +14,7 @@ class PackageFoodAllergenRepository:
         
         self.db.add(package_food_allergen)
         self.db.flush()
+        self.db.refresh(package_food_allergen)
         return package_food_allergen
     
     def get_package_food_allergen_by_id(self,package_food_allergen_id:int):
@@ -28,24 +29,18 @@ class PackageFoodAllergenRepository:
         packagefood_allergen=self.db.query(PackageFoodAllergen).filter(PackageFoodAllergen.allergen_id==allergen_id).all()
         return packagefood_allergen
     
-    def update_package_food_allergen(self,package_food_allergen_id:int,package_food_allergen:UpdatePackageFoodAllergen):
-        exsiting_allergen=self.db.query(PackageFoodAllergen).filter(PackageFoodAllergen.id==package_food_allergen_id).first()
-        if exsiting_allergen is None:
-            return None
-        if package_food_allergen.package_food_id is not None:
-            exsiting_allergen.package_food_id=(package_food_allergen.package_food_id)
-        if package_food_allergen.allergen_id is None:
-            exsiting_allergen.allergen_id=(package_food_allergen.allergen_id)
-            
-        self.db.flush()
-        return exsiting_allergen
+    def update_package_food_allergen(self,package_food_allergen:PackageFoodAllergen,update_food_allergen:UpdatePackageFoodAllergen):
+        for field , value in update_food_allergen.model_dump(exclude_unset=True).items():
+            setattr(package_food_allergen,field,value)
+        self.db.add(package_food_allergen)
+        self.db.commit()
+        self.db.refresh(package_food_allergen)
+        return package_food_allergen
     
-    def delete_package_food_allergen(self,package_food_allergen_id:int):
-        delete_allergen=self.db.query(PackageFoodAllergen).filter(PackageFoodAllergen.id==package_food_allergen_id).first()
-        if delete_allergen is None:
-            return None
+    def delete_package_food_allergen(self,delete_allergen:PackageFoodAllergen):
         
         self.db.delete(delete_allergen)
-        self.db.flush()
+        self.db.commit()
+        self.db.refresh(delete_allergen)
         
         return delete_allergen

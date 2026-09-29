@@ -13,7 +13,8 @@ class FoodCategoryRepository:
         )
         
         self.db.add(category)
-        self.db.flush()
+        self.db.commit()
+        self.db.refresh(category)
         return category
     
     def get_food_category_by_id(self,category_id:int):
@@ -29,28 +30,16 @@ class FoodCategoryRepository:
         return category
     
     def update_food_category(self,category:FoodCategory ,food_category:UpadteFoodCategory):
-
-
         for field ,value in food_category.model_dump(exclude_unset= True).items():
             setattr(category,field,value)
-
         self.db.add(category)
-        self.db.flush()
+        self.db.commit()
         self.db.refresh(category)
         return category
-
-        # if exisiting is None:
-        #     return None
-        # if food_category.name is not None:
-        #     exisiting.name = food_category.name
-        # if food_category.description is not None:
-        #     exisiting.description = food_category.description
-        # return exisiting
     
     def delete_food_category(self,delete_food_category : FoodCategory):
-
         self.db.delete(delete_food_category)
-        self.db.flush()
+        self.db.commit()
         self.db.refresh(delete_food_category)
         
         return delete_food_category

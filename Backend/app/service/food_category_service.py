@@ -48,7 +48,7 @@ class FoodCategoryService:
         return update
     
     def delete_food_category(self,category_id:int):
-        category=self.food_category.delete_food_category(category_id)
+        category=self.food_category.get_food_category_by_id(category_id)
         if category is None:
             raise HTTPException(
                 status_code=404,

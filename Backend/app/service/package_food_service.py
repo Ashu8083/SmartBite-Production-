@@ -35,24 +35,6 @@ class PackagedFoodService:
             )
         return packaged_food
     
-    def get_package_food_by_barand_id(self,brand_id:int):
-        packaged_food=self.packaged_food.get_package_food_by_brand_id(brand_id)
-        if packaged_food is None:
-            raise HTTPException(
-                status_code=404,
-                detail="package food not found for this brand"
-            )
-        return packaged_food
-    
-    def get_package_food_by_category_id(self,category_id:int):
-        packaged_food=self.packaged_food.get_package_food_by_category_id(category_id)
-        if packaged_food is None:
-            raise HTTPException(
-                status_code=404,
-                detail="package food not found for this category"
-            )
-        return packaged_food
-    
     def update_package_food(self,package_food_id:int,package_food:UpdatePackageFood):
         existing_food = self.packaged_food.get_package_food_by_id(package_food_id)
         if existing_food is None:
