@@ -26,8 +26,6 @@ class UserService:
             password_hash=user_schema.password_hash,
             user_status=user_schema.user_status,
             gender=user_schema.gender
-          
-            
             )
         return self.user_repo.create_user(user)
     

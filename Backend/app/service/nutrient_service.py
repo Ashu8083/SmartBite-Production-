@@ -19,23 +19,23 @@ class NutrientService:
             )
         return nutrient
             
-    def get_nutrient_by_name(self,name:str):
-        nutrient=self.nutrient.get_nutrient_by_name(name)
-        if nutrient is None:
-            raise HTTPException(
-                status_code=404,
-                detail="nutrient not found in this name"
-            )
-        return nutrient
-    
-    def get_nutrient_by_category(self,category:str):
-        nutrient=self.nutrient.get_nutrient_by_category(category)
-        if nutrient is None:
-            raise HTTPException(
-                status_code=404,
-                detail="nutrient not found for this category"
-            )
-        return nutrient
+    # def get_nutrient_by_name(self,name:str):
+    #     nutrient=self.nutrient.get_nutrient_by_name(name)
+    #     if nutrient is None:
+    #         raise HTTPException(
+    #             status_code=404,
+    #             detail="nutrient not found in this name"
+    #         )
+    #     return nutrient
+    #
+    # def get_nutrient_by_category(self,category:str):
+    #     nutrient=self.nutrient.get_nutrient_by_category(category)
+    #     if nutrient is None:
+    #         raise HTTPException(
+    #             status_code=404,
+    #             detail="nutrient not found for this category"
+    #         )
+    #     return nutrient
     
     def update_nutrient(self,nutrient_id:int,nutrients:UpdateNutrient):
         nutrient=self.nutrient.get_nutrient_by_id(nutrient_id)

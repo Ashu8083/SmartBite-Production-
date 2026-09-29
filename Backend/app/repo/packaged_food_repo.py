@@ -7,7 +7,7 @@ class PackagedFoodRepository:
         self.db=db
         
     def create_packaged_food_repo(self,create_packagedFood:PackagedFoodSchema):
-        packagedfood=PackageFood(
+        packaged_food=PackageFood(
             brand_id=create_packagedFood.brand_id,
             barcode=create_packagedFood.barcode,
             image_url=create_packagedFood.image_url,
@@ -21,9 +21,9 @@ class PackagedFoodRepository:
             food_claims=create_packagedFood.food_claims
         )
         
-        self.db.add(packagedfood)
+        self.db.add(packaged_food)
         self.db.flush()
-        return packagedfood
+        return packaged_food
     
     def get_package_food_by_id(self,package_food_id:int):
         package_food=self.db.query(PackageFood).filter(PackageFood.id == package_food_id).first()
@@ -41,24 +41,13 @@ class PackagedFoodRepository:
         package_food=self.db.query(PackageFood).filter(PackageFood.category_id == category_id).first()
         return package_food
     
-    def updated_package_food(self,package_food_id:int,package_food:UpdatePackageFood):
-        existing_food=self.db.query(PackageFood).filter(PackageFood.id==package_food_id).first()
-        if existing_food is None:
-            return None
-        existing_food.brand_id=package_food.brand_id,
-        existing_food.barcode=package_food.barcode,
-        existing_food.image_url=package_food.image_url,
-        existing_food.price=package_food.price,
-        existing_food.category_id=package_food.category_id,
-        existing_food.allergens_id=package_food.allergens_id,
-        existing_food.serving_size=package_food.serving_size,
-        existing_food.serving_unit=package_food.serving_unit,
-        existing_food.quantity=package_food.quantity,
-        existing_food.quantity_unit=package_food.quantity_unit,
-        existing_food.food_claims=package_food.food_claims
-        
+    def updated_package_food(self,package_food :PackageFood,package_food_update:UpdatePackageFood):
+        for field , value in package_food_update.model_dump(exclude_unset=True).items():
+            setattr(package_food,field,value)
+        self.db.add(package_food)
         self.db.flush()
-        return existing_food
+        self.db.flush(package_food)
+        return package_food
     
     def delete_package_food(self,package_food_id:int):
         deleted_food=self.db.query(PackageFood).filter(PackageFood.id==package_food_id).first
