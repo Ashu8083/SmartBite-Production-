@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from app.repo.allergen_repo import AllergenRepository
-from app.schema.allergen_schema import CreateAllergenSchema
+from app.schema.allergen_schema import CreateAllergenSchema,AllergenUpdate
 from app.exception.custome_exception import AllergyNotFoundException,AllergyAlreadyExist
 from app.model.allergen_model import Allergen
 
@@ -26,31 +26,35 @@ class AllergenService:
         allergen=self.allergen_repo.get_all_alergen()
         return allergen
 
-    def get_allergen_by_id(self,id:UUID):
+    def get_allergen_by_id(self,id:int):
         allergen=self.allergen_repo.get_allergen_by_id(id)
+        if allergen is None:
+            raise AllergyNotFoundException("Allergen is not found.")
         return allergen
 
     def get_allergen_by_name(self,name:str):
         allergen=self.allergen_repo.get_allergen_by_name(name)
+        if allergen is None:
+            raise AllergyNotFoundException("Allergen is not found.")
         return allergen
 
-    def update_allergen(self,allergen_id:UUID,allergen_schema:CreateAllergenSchema):
+    def update_allergen(self,allergen_id:int,allergen_update:AllergenUpdate):
         allergen=self.allergen_repo.get_allergen_by_id(allergen_id)
 
         if allergen is None:
             raise AllergyNotFoundException("Allergy not found in this id.")
 
-        if allergen_schema.name is not None:
-            allergen.name = allergen_schema.name
+        if allergen_update.name is not None:
+            allergen.name = allergen_update.name
 
-        if allergen_schema.description is not None:
-            allergen.description = allergen_schema.description
+        if allergen_update.description is not None:
+            allergen.description = allergen_update.description
 
-        return self.allergen_repo.update_allergen(allergen)
+        return self.allergen_repo.update_allergen(allergen,allergen_update)
         
 
 
-    def delete_allergen(self,id:UUID):
+    def delete_allergen(self,id:int):
         allergen=self.allergen_repo.get_allergen_by_id(id)
         self.allergen_repo.delete_allergen(allergen)
         return {

@@ -2,7 +2,7 @@ from fastapi import APIRouter,Depends
 from uuid import UUID
 from fastapi.responses import JSONResponse
 
-from app.schema.brand_schema import CreateBrandSchema,BrandResponse
+from app.schema.brand_schema import CreateBrandSchema,BrandResponse,BrandUpdate
 from app.dependency.service_dependency import get_brand_service
 from app.service.brand_service import BrandService
 
@@ -42,6 +42,11 @@ def get_brand_by_id(id:int,brand_service:BrandService=Depends(get_brand_service)
 @brand_router.get("/get-brand-by-name")
 def get_brand_by_name(name:str,brand_service:BrandService=Depends(get_brand_service)):
     brand=brand_service.get_brand_by_name(name)
+    return brand
+
+@brand_router.put("/update-brands")
+def update_brand(id:int,brand_update:BrandUpdate,brand_service:BrandService=Depends(get_brand_service)):
+    brand=brand_service.update_brand(id,brand_update)
     return brand
 
 @brand_router.delete("/delete-brand")

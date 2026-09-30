@@ -18,7 +18,11 @@ class EmailNotFoundException(AppException):
 
 class UserDeviceAlreadyExist(AppException):
     def __init__(self,message:str):
-        super().__init__(message=message,status_code=409,error_code="USER_DEVICE_EXIST")
+        super().__init__(message=message,status_code=409,error_code="USER_DEVICE_EXIST.")
+
+class UserDeviceNotFoundException(AppException):
+    def __init__(self,message:str):
+        super().__init__(message=message,status_code=404,error_code="USER_DEVICE_NOT_FOUND.")
 
 class AllergyNotFoundException(AppException):
     def __init__(self,message:str):
@@ -27,3 +31,11 @@ class AllergyNotFoundException(AppException):
 class AllergyAlreadyExist(AppException):
     def __init__(self, message:str):
         super().__init__(message=message, status_code=409, error_code="ALLERGY_CONFLICT.")
+
+class BrandNotFoundException(AppException):
+    def __init__(self, message:str):
+        super().__init__(message=message, status_code=404, error_code="BRAND_NOT_FOUND.")
+
+class BrandAlreadyExist(AppException):
+    def __init__(self, message:str):
+        super().__init__(message=message, status_code=404, error_code="BRAND_EXIST.")

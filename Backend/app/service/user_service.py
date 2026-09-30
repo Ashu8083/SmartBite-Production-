@@ -3,7 +3,7 @@ from fastapi import HTTPException
 from datetime import datetime
 
 from app.repo.user_repo import UserRepository
-from app.schema.user_schema import UserCreateSchema
+from app.schema.user_schema import UserCreateSchema,UserUpdate
 from app.model.user_model import Users
 from app.exception.custome_exception import UserNotFoundException,EmailNotFoundException,EmailAlreadyExist,UserAlreadyExist
 
@@ -47,26 +47,25 @@ class UserService:
 
     def get_user_by_username(self,username:str):
         user=self.user_repo.get_user_by_username(username)
+        if user is None:
+            raise UserNotFoundException("User not found.")
         return user
 
-    def  update_user(self,user_id:UUID,user_schema:UserCreateSchema):
+    def  update_user(self,user_id:UUID,user_update:UserUpdate):
         user=self.user_repo.get_user_by_id(user_id)
         if not user:
-            raise HTTPException(
-                status_code=404,
-                detail="User by this id not found"
-            )
-        if user_schema.username is not None:
-            user.username = user_schema.username
-        if user_schema.email is not None:
-            user.email = user_schema.email
-        if user_schema.gender is not None:
-            user.gender = user_schema.gender
-        if user_schema.user_status is not None:
-            user.user_status = user_schema.user_status
+            raise UserNotFoundException("User not found.")
+        if user_update.username is not None:
+            user.username = user_update.username
+        if user_update.email is not None:
+            user.email = user_update.email
+        if user_update.gender is not None:
+            user.gender = user_update.gender
+        if user_update.user_status is not None:
+            user.user_status = user_update.user_status
         
 
-        return self.user_repo.update_user(user)
+        return self.user_repo.update_user(user,user_update)
 
     def delete_user(self,user_id:UUID):
         user=self.user_repo.get_user_by_id(user_id)

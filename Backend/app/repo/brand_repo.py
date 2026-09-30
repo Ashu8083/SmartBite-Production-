@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from uuid import UUID
 
 from app.model.brand_model import Brand
+from app.schema.brand_schema import BrandUpdate
 
 
 class BrandRepository:
@@ -24,6 +25,14 @@ class BrandRepository:
 
     def get_brand_by_name(self,name:str):
         brand=self.db.query(Brand).filter(Brand.name == name).first()
+        return brand
+
+    def update_brand(self,brand:Brand,brand_update:BrandUpdate):
+        for field , value in brand_update.model_dump(exclude_unset=True).items():
+            setattr(brand,field,value)
+        self.db.add(brand)
+        self.db.flush()
+        self.db.refresh(brand)
         return brand
 
     def delete_brand(self,brand:Brand):

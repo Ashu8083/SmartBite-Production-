@@ -11,3 +11,7 @@ class BrandResponse(BaseModel):
     name:str
     description:str
     country_name:str
+
+class BrandUpdate(BaseModel):
+    name:str
+    logo_url:str

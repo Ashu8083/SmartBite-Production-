@@ -35,7 +35,7 @@ def get_all_allergen(allergen_service:AllergenService=Depends(get_allergen_servi
     return allergen
 
 @allergen_router.get("/get-allergen-by-id")
-def get_allergen_by_id(id:UUID,allergen_service:AllergenService=Depends(get_allergen_service)):
+def get_allergen_by_id(id:int,allergen_service:AllergenService=Depends(get_allergen_service)):
     allergen=allergen_service.get_allergen_by_id(id)
     return allergen
 

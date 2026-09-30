@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from uuid import UUID
 from app.model.allergen_model import Allergen
+from app.schema.allergen_schema import AllergenUpdate
 
 class AllergenRepository:
     def __init__(self,db:Session):
@@ -16,7 +17,7 @@ class AllergenRepository:
         allergen=self.db.query(Allergen).filter().all()
         return allergen
 
-    def get_allergen_by_id(self,id:UUID):
+    def get_allergen_by_id(self,id:int):
         allergen=self.db.query(Allergen).filter(Allergen.id == id).first()
         return allergen
 
@@ -24,8 +25,11 @@ class AllergenRepository:
         allergen=self.db.query(Allergen).filter(Allergen.name == name).first()
         return allergen
 
-    def update_allergen(self,allergen:Allergen):
-        self.db.commit()
+    def update_allergen(self,allergen:Allergen,allergen_update:AllergenUpdate):
+        for field , value in allergen_update.model_dump(exclude_unset=True).items():
+            setattr(allergen,field,value)
+        self.db.add(allergen)
+        self.db.flush()
         self.db.refresh(allergen)
         return allergen
 
